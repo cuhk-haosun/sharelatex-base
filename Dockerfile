@@ -7,11 +7,14 @@ USER root
 # Update tlmgr and install required TeX Live packages
 RUN tlmgr update --self --all && \
     tlmgr install \
-      ctex \
+      ctex latexmk \
       collection-langchinese \
+      titlesec
+      
+RUN tlmgr install \
       collection-latexrecommended \
       collection-fontsrecommended \
-      latexmk
+      
 
 # (Optional) Clean up tlmgr caches to reduce image size
 ##  # disables future backups, removes all existing backups
