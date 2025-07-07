@@ -14,7 +14,9 @@ RUN tlmgr update --self --all && \
       latexmk
 
 # (Optional) Clean up tlmgr caches to reduce image size
-RUN tlmgr clean --all
+##  # disables future backups, removes all existing backups
+RUN tlmgr option -- autobackup 0 && tlmgr backup --clean --all
+
 
 # Install system CJK font packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
