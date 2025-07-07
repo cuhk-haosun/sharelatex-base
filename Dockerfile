@@ -18,6 +18,15 @@ RUN tlmgr update --self --all && \
 # (Optional) Clean up tlmgr caches to reduce image size
 RUN tlmgr clean --all
 
+# Install system CJK font packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      fonts-noto-cjk \
+      fonts-arphic-uming \
+      fonts-arphic-ukai \
+      fontconfig \
+    && fc-cache -fv \
+    && rm -rf /var/lib/apt/lists/*
+
 # Switch back to the sharelatex user
 USER sharelatex
 
