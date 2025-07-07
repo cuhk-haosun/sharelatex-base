@@ -10,9 +10,7 @@ RUN tlmgr update --self --all && \
       ctex \
       collection-langchinese \
       collection-latexrecommended \
-      collection-latexextra \
       collection-fontsrecommended \
-      collection-fontsextra \
       latexmk
 
 # (Optional) Clean up tlmgr caches to reduce image size
@@ -20,9 +18,8 @@ RUN tlmgr clean --all
 
 # Install system CJK font packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      fonts-noto-cjk \
-      fonts-arphic-uming \
-      fonts-arphic-ukai \
+      fonts-noto-cjk fonts-arphic-uming fonts-arphic-ukai \
+      texlive-xetex texlive-luatex \
       fontconfig \
     && fc-cache -fv \
     && rm -rf /var/lib/apt/lists/*
