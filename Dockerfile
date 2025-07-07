@@ -13,7 +13,7 @@ RUN tlmgr update --self --all && \
       
 RUN tlmgr install \
       collection-latexrecommended \
-      collection-fontsrecommended \
+      collection-fontsrecommended 
       
 
 # (Optional) Clean up tlmgr caches to reduce image size
