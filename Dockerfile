@@ -29,9 +29,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && fc-cache -fv \
     && rm -rf /var/lib/apt/lists/*
 
-# Switch back to the sharelatex user
-USER sharelatex
-
 # Expose default ShareLaTeX port (optional, inherited from base image)
 EXPOSE 80
 
