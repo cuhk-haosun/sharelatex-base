@@ -9,7 +9,7 @@ RUN tlmgr update --self --all && \
     tlmgr install \
       ctex latexmk \
       collection-langchinese \
-      titlesec enumitem
+      titlesec enumitem multirow
       
 RUN tlmgr install \
       collection-latexrecommended \
