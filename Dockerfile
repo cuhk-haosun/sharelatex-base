@@ -9,7 +9,9 @@ RUN tlmgr update --self --all && \
     tlmgr install \
       ctex latexmk \
       collection-langchinese \
-      titlesec enumitem multirow textpos adjustbox siunitx
+      titlesec enumitem multirow textpos adjustbox \
+      siunitx caption subcaption float booktabs \
+      tikz hyperref fancyhdr
       
 RUN tlmgr install \
       collection-latexrecommended \
