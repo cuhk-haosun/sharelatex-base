@@ -9,13 +9,13 @@ RUN tlmgr update --self --all && \
     tlmgr install \
       ctex latexmk \
       collection-langchinese \
-      titlesec enumitem multirow textpos adjustbox \
-      siunitx caption subcaption float booktabs \
-      tikz hyperref fancyhdr
-      
-RUN tlmgr install \
       collection-latexrecommended \
       collection-fontsrecommended 
+
+      
+RUN tlmgr install \
+      siunitx caption subcaption float booktabs \
+      tikz hyperref fancyhdr
       
 
 # (Optional) Clean up tlmgr caches to reduce image size
