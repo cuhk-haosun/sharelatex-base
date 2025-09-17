@@ -42,8 +42,8 @@ RUN tlmgr install \
 # Clean tlmgr caches
 # ----------------------------------------------------------------------
 RUN tlmgr option -- autobackup 0 && \
-    tlmgr backup --clean --all && \
-    tlmgr clean --all
+    tlmgr backup --clean --all || echo "No tlmgr backups to clean"
+
 
 # ----------------------------------------------------------------------
 # System fonts & tools used by LaTeX runs
