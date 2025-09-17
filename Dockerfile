@@ -1,39 +1,69 @@
-# Use the official ShareLaTeX image as base
+# ----------------------------------------------------------------------
+# Base image – ShareLaTeX/Overleaf CE
+# ----------------------------------------------------------------------
 FROM sharelatex/sharelatex:latest
 
-# Switch to root to install packages
+# ----------------------------------------------------------------------
+# Become root – tlmgr & apt-get need it
+# ----------------------------------------------------------------------
 USER root
 
-# Update tlmgr and install required TeX Live packages
-RUN tlmgr update --self --all && \
-    tlmgr install \
-      ctex latexmk \
-      collection-langchinese \
-      collection-latexrecommended \
-      collection-fontsrecommended 
+# ----------------------------------------------------------------------
+# Update tlmgr & package database
+# ----------------------------------------------------------------------
+RUN tlmgr update --self --all
 
-      
+# ----------------------------------------------------------------------
+# tlmgr install (1/3): core engines/tools + LaTeX recommended
+# ----------------------------------------------------------------------
 RUN tlmgr install \
-      siunitx caption subcaption float booktabs \
-      tikz hyperref fancyhdr
-      
+      latexmk ctex fontspec \
+      collection-latexrecommended
 
-# (Optional) Clean up tlmgr caches to reduce image size
-##  # disables future backups, removes all existing backups
-RUN tlmgr option -- autobackup 0 && tlmgr backup --clean --all
+# ----------------------------------------------------------------------
+# tlmgr install (2/3): graphics, tables, fonts
+# ----------------------------------------------------------------------
+RUN tlmgr install \
+      collection-latexextra \
+      collection-pictures \
+      collection-fontsrecommended
 
+# ----------------------------------------------------------------------
+# tlmgr install (3/3): languages + bibliography tooling
+# ----------------------------------------------------------------------
+RUN tlmgr install \
+      collection-langchinese \
+      collection-langfrench \
+      collection-langitalian \
+      collection-bibtexextra \
+      biber
 
-# Install system CJK font packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      fonts-noto-cjk fonts-arphic-uming fonts-arphic-ukai \
-      texlive-xetex texlive-luatex \
-      fontconfig \
-    && fc-cache -fv \
-    && rm -rf /var/lib/apt/lists/*
+# ----------------------------------------------------------------------
+# Clean tlmgr caches
+# ----------------------------------------------------------------------
+RUN tlmgr option -- autobackup 0 && \
+    tlmgr backup --clean --all && \
+    tlmgr clean --all
 
-# Expose default ShareLaTeX port (optional, inherited from base image)
+# ----------------------------------------------------------------------
+# System fonts & tools used by LaTeX runs
+# - CJK system fonts for fontspec/xeCJK
+# - Inkscape for the 'svg' package (used at build time)
+# ----------------------------------------------------------------------
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        fonts-noto-cjk \
+        fonts-arphic-uming \
+        fonts-arphic-ukai \
+        inkscape \
+        fontconfig && \
+    fc-cache -fv && \
+    rm -rf /var/lib/apt/lists/*
+
+# ----------------------------------------------------------------------
+# Expose ShareLaTeX web UI
+# ----------------------------------------------------------------------
 EXPOSE 80
 
-# (Optional) set entrypoint/cmd if you need to override base behavior
-# CMD ["run"]
-
+# (Optional) Drop privileges again if your base image expects it:
+USER sharelatex
