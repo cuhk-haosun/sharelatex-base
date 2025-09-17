@@ -64,6 +64,3 @@ RUN apt-get update && \
 # Expose ShareLaTeX web UI
 # ----------------------------------------------------------------------
 EXPOSE 80
-
-# (Optional) Drop privileges again if your base image expects it:
-USER sharelatex
